@@ -1,0 +1,37 @@
+when i want to install a python3 in terminal on my macbookpro(macOS mojave 10.14.6),i need to install a homebrew first.
+
+****************************************************************************
+<INSTALL PATH> -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+****************************************************************************
+
+then there is a error:
+
+****************************************************************************
+error: RPC failed; curl 56 LibreSSL SSL_read: SSL_ERROR_SYSCALL, errno 54
+fatal: the remote end hung up unexpectedly
+fatal: early EOF
+fatal: index-pack failed
+Failed during: git fetch origin master:refs/remotes/origin/master --tags --force
+****************************************************************************
+
+I've now tried increasing the buffer
+****************************************************************************
+git config --global http.postBuffer 114288000
+****************************************************************************
+and it works
+
+
+
+
+///////////////////////////////////////////////
+More information:
+
+From the git config man page, http.postBuffer is about:
+
+Maximum size in bytes of the buffer used by smart HTTP transports when POSTing data to the remote system.
+For requests larger than this buffer size, HTTP/1.1 and Transfer-Encoding: chunked is used to avoid creating
+a massive pack file locally. Default is 1 MiB, which is sufficient for most requests.
+
+Even for the clone, that can have an effect, and in this instance, the OP Joe reports:
+
+[clone] works fine now
